@@ -6,6 +6,34 @@ The project is focused on U.S. airport modernization and investment analysis. Op
 
 The system combines an OpenAI model for natural-language understanding, tool selection, conversational context, and explanation with Python-based analytical tools for congestion analysis, flight-haul distribution, expansion ranking, and demand-pressure analysis.
 
+## Quick Start
+
+From the project root:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+```
+
+Add your API keys to `.env`:
+
+```env
+FLIGHT_API_KEY=your_airlabs_api_key
+OPENAI_API_KEY=your_openai_api_key
+```
+
+Then start the Streamlit chat interface:
+
+```bash
+python3 -m streamlit run app.py
+```
+
+Open the local URL shown by Streamlit in the terminal.
+
+> API keys can be obtained from the respective OpenAI and AirLabs developer accounts.
+
 ## What the Project Does
 
 The agent can answer questions such as:
@@ -261,7 +289,7 @@ The score provides a demand-pressure signal but does not prove that the airport 
 - **Model configuration:** the prototype currently uses `gpt-4o-mini`, configured directly in the agent code. The model can be replaced without changing the analytical tools or deterministic scoring logic.
 - **Direct APIs instead of MCP:** the prototype uses a small number of known integrations, so direct API calls keep the implementation simpler and easier to inspect and test.
 - **No persistence layer:** conversation history is kept in memory, and no database or separate backend service is used because persistence is outside the scope of the assignment.
-- **Lightweight UI:** Streamlit provides a simple chat interface while keeping development effort focused on agent behavior and analytical logic.
+- **Streamlit for the chat UI:** Streamlit provides a lightweight conversational interface with minimal frontend overhead, allowing the prototype to focus on agent behavior, tool orchestration, and deterministic analytics.
 
 ## Tradeoffs and Limitations
 
@@ -284,46 +312,6 @@ The score provides a demand-pressure signal but does not prove that the airport 
 - Runtime queries and integration tests depend on external API availability and may fail because of provider availability, request quotas, rate limits, or network conditions.
 - If a required external data source is unavailable, the system reports the limitation instead of treating the failure as zero activity or generating missing KPI values.
 - Direct API integration keeps the prototype simple and makes deterministic scoring inputs easy to inspect and test. MCP would become more useful if the number and variety of integrations grew.
-
-## Setup
-
-### 1. Create a Virtual Environment
-
-```bash
-python3 -m venv venv
-```
-
-Activate it:
-
-```bash
-source venv/bin/activate
-```
-
-### 2. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Configure Environment Variables
-
-Copy the example environment file:
-
-```bash
-cp .env.example .env
-```
-
-Add the required API keys to `.env`:
-
-```env
-# AirLabs API key used for operational flight data
-FLIGHT_API_KEY=your_airlabs_api_key
-
-# OpenAI API key used by the conversational agent and tool calling
-OPENAI_API_KEY=your_openai_api_key
-```
-
-The `.env` file is excluded from version control and should not be committed.
 
 ## Running the Agent
 
